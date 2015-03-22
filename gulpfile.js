@@ -7,19 +7,21 @@ var traceur = require('gulp-traceur');
 
 var PATHS = {
     src: {
-      js: 'src/**/*.js',
-      html: 'src/**/*.html'
+        js: 'src/**/*.js',
+        html: 'src/**/*.html'
     },
     lib: [
-      'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
-      'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.src.js',
-      'node_modules/systemjs/lib/extension-register.js',
-      'node_modules/angular2/node_modules/zone.js/zone.js'
+        'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
+        'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.src.js',
+        'node_modules/systemjs/lib/extension-register.js',
+        'node_modules/angular2/node_modules/zone.js/zone.js',
+        'bower_components/lodash/lodash.js',
+        'bower_components/bootstrap/dist/css/bootstrap.css'
     ]
 };
 
-gulp.task('clean', function(done) {
-  del(['dist'], done);
+gulp.task('clean', function (done) {
+    del(['dist'], done);
 });
 
 gulp.task('js', function () {
@@ -52,12 +54,12 @@ gulp.task('angular2', function () {
     return gulp.src([
             'node_modules/angular2/es6/prod/*.es6',
             'node_modules/angular2/es6/prod/src/**/*.es6'],
-            { base: 'node_modules/angular2/es6/prod' })
-        .pipe(rename(function(path){
+        {base: 'node_modules/angular2/es6/prod'})
+        .pipe(rename(function (path) {
             path.dirname = 'angular2/' + path.dirname; //this is not ideal... but not sure how to change angular's file structure
             path.extname = ''; //hack, see: https://github.com/sindresorhus/gulp-traceur/issues/54
-        })) 
-        .pipe(traceur({ modules: 'instantiate', moduleName: true}))
+        }))
+        .pipe(traceur({modules: 'instantiate', moduleName: true}))
         .pipe(concat('angular2.js'))
         .pipe(gulp.dest('dist/lib'));
 });
@@ -76,7 +78,7 @@ gulp.task('play', ['default'], function () {
 
     app = connect().use(serveStatic(__dirname + '/dist'));  // serve everything that is static
     http.createServer(app).listen(port, function () {
-      open('http://localhost:' + port);
+        open('http://localhost:' + port);
     });
 });
 

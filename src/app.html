@@ -1,0 +1,24 @@
+<style>@import "lib/bootstrap.css";</style>
+
+<div class="container">
+    <div class="center-block">
+        <div class="container text-center">
+            <h1>Powered by Angular 2.0</h1>
+        </div>
+        <div class="row">
+            <form role="form">
+                <div class="form-group">
+                    <label for="searchText">Find A Contact <span *if="searchText">: '{{searchText}}'</span></label>
+                    <input id="searchText" class="form-control" type="text" #search (keyup)="updateSearchText(search.value)"/>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <contact-card *foreach="#contact in filteredContacts"
+                    [contact]="contact"
+                    (delete)="deleteContact(contact)">
+            </contact-card>
+        </div>
+    </div>
+</div>
